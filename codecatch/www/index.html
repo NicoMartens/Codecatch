@@ -1,13 +1,19 @@
 <!doctype html>
 <html ng-app="Codecatch">
   <head>
-      <script src="js/jquery.js"></script>
-      <script src="js/angular.js"></script>
-      <script src="js/ui-bootstrap-tpls-0.13.0.min.js"></script>
-      <script src="js/app.js"></script>
-      <script src="js/bootstrap.js"></script>
-      <link href="css/bootstrap.min.css" rel="stylesheet">
-      <title>Codecatch</title>
+	<meta charset="utf-8">
+    <script src="js/jquery.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/ui-bootstrap-tpls-0.13.0.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	  
+	<!-- leaflet imports-->
+	<link rel="stylesheet" href="leaflet.css" />
+    <script type="text/javascript" src="leaflet.js"></script>
+	  
+	<title>Codecatch</title>
 
   </head>
   <body>
@@ -70,9 +76,39 @@
           </div>
         </div>
     </nav>
+	
+	
+	<!-- 
+	
+	MAP:
+		using tiles (downloaded with TileDownloader, tiles from Mapquest) 
+		and leaflet framework	
+	-->
+	<div id="map">
+		<script type="text/javascript">
+		
+		var map = L.map('map', {
+					center: [50.932316, 6.99],
+					zoom: 16,
+					minZoom: 15,
+					maxZoom: 18
+		});
+		
+		map.setMaxBounds([
+			[50.933316-0.01, 6.988179-0.015],
+			[50.933316+0.01, 6.988179+0.015]
+		]);
+		
+		L.tileLayer('Mapquest/{z}/{x}/{y}.png').addTo(map);
+		
+		</script>
+	</div>
 
 
-    <OBJECT type="image/svg+xml" data="svg/park.svg"></OBJECT>
+    <!--
+	erster versuch von Timo, svg direkt einbinden...
+	<OBJECT type="image/svg+xml" data="svg/park.svg"></OBJECT>
+	-->
 
     </body>
 
