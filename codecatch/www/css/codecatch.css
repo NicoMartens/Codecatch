@@ -1,4 +1,11 @@
-#footer2 {
+#footerPoi {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(105,105,105,0.8);
+}
+
+#footerPosition {
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -13,3 +20,4 @@ a.accordion-toggle {
 div.panel-heading {
   padding: 0;
 }
+

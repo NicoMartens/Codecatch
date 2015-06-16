@@ -2,103 +2,70 @@
 
 var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
 
-CodeCatchApp.controller('ModalCtrl', function ($scope, $modal, $log) {
-
-  //$scope.items = ['Werners Wurstbude', 'Flying Horse', 'Free Willy', 'Rakete', 'Picknickpark', 'Accessoir-Shop'];
-  //$scope.codes = ['1234', '4123', '2314'];
-
-
-  $scope.animationsEnabled = true;
-
-  $scope.open = function (size) {
-
-    var modalInstance = $modal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'POIContent.html',
-      controller: 'ModalInstanceCtrl',
-      size: size,
-      resolve: {
-        items: function () {
-          return $scope.items;
-        }
-      }
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
-  };
-
-
-   $scope.search = function (size) {
-
-    var modalInstance = $modal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'search.html',
-      controller: 'ModalInstanceCtrl',
-      size: size,
-      resolve: {
-        items: function () {
-          return $scope.codes;
-        }
-      }
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
-  };
-
-
-
-});
-
-// Please note that $modalInstance represents a modal window (instance) dependency.
-// It is not the same as the $modal service used above.
-
-CodeCatchApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
-
-  $scope.items = items;
-  $scope.selected = {
-    item: $scope.items[0]
-  };
-
-  $scope.ok = function () {
-    $modalInstance.close($scope.selected.item);
-  };
-
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
-});
-
 //JsonDataController
- CodeCatchApp.controller('jsonCtrl', function ($scope, $http){
+  CodeCatchApp.controller('jsonCtrl', function ($scope, $http){
 
-    $scope.convertToInt= function (value) {
-            return parseInt(value);
-        };
+    var latlngs = Array();
 
-    $scope.locateMap = function (x, y) {
-        var marker3 = new L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map);
-        marker.bindPopup("Werners Wurstbude");} ;
+    //used in Poi
+    //sets Marker to x,y with description z
+    $scope.locateMap = function (x, y, z) {
+      var marker3 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map);
+      marker3.bindPopup(z);
+      var point = L.point(x,y);
+      map.panTo(new L.latLng(map.unproject([x,y*1.06],mapMaxZoom)));
+      marker3.openPopup();
+
+    } ;
 
     $scope.oneAtATime = true;
 
     $scope.status = {
-    isFirstOpen: true,
-    isFirstDisabled: false
+      isFirstOpen: true,
+      isFirstDisabled: false
     };
 
     $http.get('json/jsonData.json')
-        .success(function (response)
-                 {
-                    $scope.infos=response.temp;
-                 });
-            });
+    .success(function (response)
+    {
+      $scope.pois=response.poi;
+      $scope.positions=response.position;
+    });
+
+    //used in Position - input=PositionCode
+    //sets Marker to position of input
+    $scope.getPosition = function(input){
+      console.log(input);
+
+      angular.forEach ($scope.positions, function(value, key){
+        if (value.posCode==input){
+          var marker3 = L.marker(map.unproject([value.x,value.y],mapMaxZoom)).addTo(map);
+          marker3.bindPopup("You Are Here!");
+          map.panTo(new L.latLng(map.unproject([value.x,value.y*1.06],mapMaxZoom)));
+          marker3.openPopup();
+          latlngs.push(marker3.getLatLng());
+
+        } //end of if
+      }) //end of forEach
+    } //end of getPosition function
+    
+$scope.drawWay = function(x,y,z){
+
+  var marker3 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map);
+  marker3.bindPopup(z);
+  var point = L.point(x,y);
+  map.panTo(new L.latLng(map.unproject([x,y*1.06],mapMaxZoom)));
+  marker3.openPopup();
+  latlngs.push(marker3.getLatLng());
+  var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+
+  // zoom the map to the polyline
+  map.fitBounds(polyline.getBounds());
+  };
+
+
+
+
+  });//end of jsonCtrl
 
 

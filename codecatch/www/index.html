@@ -1,166 +1,189 @@
-  <!doctype html>
-  <html ng-app="Codecatch">
-    <head>
-  	<meta charset="utf-8">
-      <script src="js/jquery.js"></script>
-      <script src="js/angular.js"></script>
-      <script src="js/ui-bootstrap-tpls-0.13.0.min.js"></script>
-      <script src="js/app.js"></script>
-      <script src="js/bootstrap.js"></script>
-      <link href="css/bootstrap.min.css" rel="stylesheet">
-  	  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.js"></script>
-  	<!-- leaflet imports-->
-  	<link rel="stylesheet" href="leaflet.css" />
-      <script type="text/javascript" src="leaflet.js"></script>
+      <!doctype html>
+      <html ng-app="Codecatch">
+      <head>
+      	<meta charset="utf-8">
+        <script src="js/jquery.js"></script>
+        <script src="js/angular.js"></script>
+        <script src="js/ui-bootstrap-tpls-0.13.0.min.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.js"></script>
+        <!-- leaflet imports-->
+        <link rel="stylesheet" href="leaflet.css" />
+        <script type="text/javascript" src="leaflet.js"></script>
 
-  <link rel="stylesheet" href="css/codecatch.css" />
-  	
-  	<style>
+        <link rel="stylesheet" href="css/codecatch.css" />
+
+        <style>
         html, body, #map { width:100%; height:100%; margin:0; padding:0; }
-      </style>
-  	  
-  	<title>Codecatch</title>
+        </style>
 
-    </head>
-  <body ng-app="Codecatch">
-     
+        <title>Codecatch</title>
+
+      </head>
+      <body ng-app="Codecatch">
+
       </script>
       <!-- NavBar -->
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="">[Codecatch]</a>
-            </div>
-        <!--<div id="App1" class="mainContainer" data-ng-app="jsonDataApp">-->
-            
-                
-            <div id="navbar" class="collapse navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li ><a ng-click="search()">Postion</a></li>
-                <li ><a href="" ng-click="show = !show">POI</a></li>
-                <li ><a href="">Reset</a></li>
-              </ul>
-            </div><!--/.nav-collapse -->
-     </div>
-    </nav>
-  	
-  	
-  	<!-- 
-  	
-  	MAP:
-  		using tiles (downloaded with TileDownloader, tiles from Mapquest) 
-  		and leaflet framework	
-  	-->
-  	<div id="map">
-  		<script type="text/javascript">
-  		
-  		var mapMinZoom = 3;
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="">[Codecatch]</a>
+          </div>
+          <!--<div id="App1" class="mainContainer" data-ng-app="jsonDataApp">-->
+
+
+          <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li ><a href="" ng-click="showPos = !showPos; showPoi=false">Postion</a></li>
+              <li ><a href="" ng-click="showPoi = !showPoi; showPos=false">POI</a></li>
+              <li ><a href="">Reset</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+
+
+      	<!-- 
+      	
+      	MAP:
+      		using tiles (downloaded with TileDownloader, tiles from Mapquest) 
+      		and leaflet framework	
+      	-->
+      	<div id="map">
+      		<script type="text/javascript">
+      		
+      		var mapMinZoom = 3;
           var mapMaxZoom = 6;
-  		
-  		var map = L.map('map', {
+
+          var map = L.map('map', {
             maxZoom: mapMaxZoom,
             minZoom: mapMinZoom,
             crs: L.CRS.Simple
           });
-  			
-  	
-  		var pointW = new L.point(5651.5,4298.5);
-  		//console.log(pointW.toString());
-  		var latlng = map.unproject(pointW, mapMaxZoom);
-  		//console.log(latlng.toString());
-  	
-  		
-  		//sets window center and initial zoom level
-  		map.setView(latlng, mapMinZoom);
-  	
-  		var dif = 1000; 
+
+
+          var pointW = new L.point(5651.5,4298.5);
+      		//console.log(pointW.toString());
+      		var latlng = map.unproject(pointW, mapMaxZoom);
+      		//console.log(latlng.toString());
+
+      		
+      		//sets window center and initial zoom level
+      		map.setView(latlng, mapMinZoom);
+
+      		var dif = 1000; 
           var mapBounds = new L.LatLngBounds(
-              map.unproject([0+dif, 8192-dif], mapMaxZoom),
-              map.unproject([11264-dif, 0+dif], mapMaxZoom));
-  		
-  		//console.log(map.unproject([11264, 0], mapMaxZoom).toString());
-  		
-  		map.setMaxBounds(mapBounds);
-              
-          
+            map.unproject([0+dif, 8192-dif], mapMaxZoom),
+            map.unproject([11264-dif, 0+dif], mapMaxZoom));
+
+      		//console.log(map.unproject([11264, 0], mapMaxZoom).toString());
+      		
+      		map.setMaxBounds(mapBounds);
+
+
           L.tileLayer('{z}/{x}/{y}.png', {
             minZoom: mapMinZoom, maxZoom: mapMaxZoom,
             bounds: mapBounds,
             attribution: 'Rendered with <a href="http://www.maptiler.com/">MapTiler</a>',
             noWrap: true          
           }).addTo(map);
-  	
-  		var popup = L.popup();
-  	
-  		function onMapClick(e) {
-  			popup.setLatLng(e.latlng)
-  				.setContent("Koordinaten aus dem Originalbild: " + map.project(e.latlng, mapMaxZoom).toString())
-  				.openOn(map);
-  		}
-  		
-  		map.on('click', onMapClick);
-  		
-  		var marker = L.marker([-65.1875, 99.3125]).addTo(map);
-  		marker.bindPopup("Hier ist eine Kreuzung");
-  		var marker2 = L.marker(map.unproject([5651.5,4298.5],mapMaxZoom)).addTo(map);
-  		marker2.bindPopup("Hier ist ein W");
-  		
-  	
-  		</script>
-  	</div>
 
- 
+          var popup = L.popup();
 
-  <!-- 
+          function onMapClick(e) {
+           popup.setLatLng(e.latlng)
+           .setContent("Koordinaten aus dem Originalbild: " + map.project(e.latlng, mapMaxZoom).toString())
+           .openOn(map);
+         }
 
-  Footer beim Klick auf POI mit Suche und POIs + Infos
+         map.on('click', onMapClick);
 
-  Zum Ausblenden einfach ng-click="show = !show"
+         var marker = L.marker([-65.1875, 99.3125]).addTo(map);
+         marker.bindPopup("Hier ist eine Kreuzung");
+         var marker2 = L.marker(map.unproject([5651.5,4298.5],mapMaxZoom)).addTo(map);
+         marker2.bindPopup("Hier ist ein W");
 
-   -->
-    <div id="footer2" ng-show="show" style="height:50%;overflow:auto;">
-      <div id="container">
-        <div ng-controller="jsonCtrl">
+
+         </script>
+       </div>
+
+
+
+      <!-- 
+
+      Footer beim Klick auf POI mit Suche und POIs + Infos
+
+      Zum Ausblenden einfach ng-click="show = !show"
+
+    -->
+    <div ng-controller="jsonCtrl">
+      <div id="footerPoi" ng-show="showPoi" style="height:50%;overflow:auto;">
+        <div id="container">
+
 
 
           <div class="input-group">
             <span class="input-group-addon" id="sizing-addon2">Suche nach:</span>
             <input type="text" class="form-control" placeholder="&quot;Fast Food&quot;, &quot;Pommes&quot;, &quot;Würstchen&quot;" aria-describedby="sizing-addon2" ng-model="searchPOI.tags" ng-model="searchPOI.name">
           </div>
-        </br>
+          </br>
 
           <accordion close-others="true">
 
-            <accordion-group class="fx-fade-right fx-speed-300"
-            ng-repeat="x in infos | filter:searchPOI.tags | filter:searchPOI.name" 
-            heading="{{x.name}}">
-            {{x.beschreibung}}
-            {{x.x}}
-            
-            <button ng-click="locateMap(x.x, x.y)">
-              Locate
+            <accordion-group class="fx-fade-right fx-speed-300" ng-repeat="x in pois | filter:searchPOI.tags | filter:searchPOI.name" heading="{{x.name}}">
+              {{x.beschreibung}}
+            <A href="javascript:window.print()">Click to Print This Page</A>
+            <button ng-click="locateMap(x.x, x.y, x.name)">
+            Locate
             </button>
-          </accordion-group>
+            </accordion-group> 
+          </accordion>
+        </div>         
+      </div>
+
+      <!-- FooterDiv for Position Button -->
+
+      <div id="footerPosition" ng-show="showPos" style="height:50%;overflow:auto;">
+        <div id="container">
+          <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon2">Positionscode:</span>
+            <input type="text" class="form-control" placeholder="&quot;1234&quot;" aria-describedby="sizing-addon2" ng-model="PositionCode">
+          </div>
           
-        </accordion>
+            <button ng-click="getPosition(PositionCode); showAcc=true">
+            Wo bin ich?
+            </button>
+
+            <!-- Accordion shows when Positionscode true after click on Button -->
+
+          <div ng-show="showAcc">
+            Navigiere zu:
+            <accordion close-others="true">
+
+            <accordion-group class="fx-fade-right fx-speed-300" ng-repeat="x in pois | filter:searchPOI.tags | filter:searchPOI.name" heading="{{x.name}}">
+              {{x.beschreibung}}
+            <button ng-click="drawWay(x.x, x.y, x.name)">
+            Navigate
+            </button>
+
+            </accordion-group> 
+          </accordion>
+          </div>
+
+        </div>         
+      </div>
 
 
-      </div>         
-    </div>
-  </div>
+    </div> <!--./jsonCtrl-->
 
-
-      <!--
-  	erster versuch von Timo, svg direkt einbinden...
-  	<OBJECT type="image/svg+xml" data="svg/park.svg"></OBJECT>
-  	-->
-
-      </body>
+  </body>
 
   </html>
