@@ -1,10 +1,11 @@
-angular.module('Codecatch', ['ui.bootstrap']);
-angular.module('Codecatch').controller('ModalCtrl', function ($scope, $modal, $log) {
 
 
+var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
 
-  $scope.items = ['Werners Wurstbude', 'Flying Horse', 'Free Willy', 'Rakete', 'Picknickpark', 'Accessoir-Shop'];
-  $scope.codes = ['1234', '4123', '2314'];
+CodeCatchApp.controller('ModalCtrl', function ($scope, $modal, $log) {
+
+  //$scope.items = ['Werners Wurstbude', 'Flying Horse', 'Free Willy', 'Rakete', 'Picknickpark', 'Accessoir-Shop'];
+  //$scope.codes = ['1234', '4123', '2314'];
 
 
   $scope.animationsEnabled = true;
@@ -59,7 +60,7 @@ angular.module('Codecatch').controller('ModalCtrl', function ($scope, $modal, $l
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
 
-angular.module('Codecatch').controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
+CodeCatchApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
 
   $scope.items = items;
   $scope.selected = {
@@ -75,6 +76,25 @@ angular.module('Codecatch').controller('ModalInstanceCtrl', function ($scope, $m
   };
 });
 
+//JsonDataController
+ CodeCatchApp.controller('jsonCtrl', function ($scope, $http){
 
+    $scope.convertToInt= function (value) {
+            return parseInt(value);
+        };
+
+    $scope.oneAtATime = true;
+
+    $scope.status = {
+    isFirstOpen: true,
+    isFirstDisabled: false
+    };
+
+    $http.get('json/jsonData.json')
+        .success(function (response)
+                 {
+                    $scope.infos=response.temp;
+                 });
+            });
 
 

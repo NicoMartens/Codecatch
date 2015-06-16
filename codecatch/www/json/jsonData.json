@@ -1,0 +1,30 @@
+{"temp":
+    [
+    {
+        "name": "Werner's Wurstbude",
+        "beschreibung": "Hier gibt es Würstchen und Pommes zu kaufen",
+        "info": "Mehr Infos?",
+        "x": "4000",
+        "y": "4000",
+        "tags": ["Fast Food", "Würstchen"]
+    },
+    
+    {
+        "name": "Hani's Schnitzelparadies",
+        "beschreibung": "Hier gibt es Schnitzel ohne Ende",
+        "info": "Was geht ab?",
+        "x": "5000",
+        "y": "5000",
+        "tags": ["Würstchen", "Steak"]
+    },
+    
+    {
+        "name": "Susi's Sahne Salon",
+        "beschreibung": "Alles von Torte bis Törtchen",
+        "info": "Nur Fett hat mehr Kalorien!",
+        "x": "6000",
+        "y": "6000",
+        "tags": ["Fisch", "Kuchen"]
+    }
+    ]
+}

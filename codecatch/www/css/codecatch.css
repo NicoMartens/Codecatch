@@ -1,0 +1,15 @@
+#footer2 {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(105,105,105,0.8);
+}
+
+a.accordion-toggle {
+  display: block;
+  padding: 10px  15px;
+}
+
+div.panel-heading {
+  padding: 0;
+}
