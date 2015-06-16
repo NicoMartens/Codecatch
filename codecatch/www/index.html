@@ -148,7 +148,8 @@
             heading="{{x.name}}">
             {{x.beschreibung}}
             {{x.x}}
-            <button onclick="locateMap({{x.x}}, {{x.y}})">
+            
+            <button ng-click="locateMap(x.x, x.y)">
               Locate
             </button>
           </accordion-group>

@@ -83,6 +83,10 @@ CodeCatchApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance, i
             return parseInt(value);
         };
 
+    $scope.locateMap = function (x, y) {
+        var marker3 = new L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map);
+        marker.bindPopup("Werners Wurstbude");} ;
+
     $scope.oneAtATime = true;
 
     $scope.status = {
