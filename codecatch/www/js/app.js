@@ -10,11 +10,10 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     //used in Poi
     //sets Marker to x,y with description z
     $scope.locateMap = function (x, y, z) {
-      var marker3 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map);
-      marker3.bindPopup(z);
-      var point = L.point(x,y);
-      map.panTo(new L.latLng(map.unproject([x,y*1.06],mapMaxZoom)));
-      marker3.openPopup();
+      var marker3 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map); //marker erzeugen und an map hängen
+      marker3.bindPopup(z); //popup mit beschreibung anhängen
+      map.panTo(new L.latLng(map.unproject([x,y*1.06],mapMaxZoom))); //map auf point einstellen
+      marker3.openPopup(); //Popup anzeigen
 
     } ;
 
@@ -53,7 +52,6 @@ $scope.drawWay = function(x,y,z){
 
   var marker3 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map);
   marker3.bindPopup(z);
-  var point = L.point(x,y);
   map.panTo(new L.latLng(map.unproject([x,y*1.06],mapMaxZoom)));
   marker3.openPopup();
   latlngs.push(marker3.getLatLng());
