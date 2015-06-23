@@ -9,6 +9,13 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     var temp = Array();
     var marker3 = null;
     var marker4 = 1;
+/**
+    $scope.showAcc = false;
+    $scope.showPos = false;
+    $scope.showPoi = false;
+    console.log($scope.showAcc);
+    **/
+
     $scope.deleteLocateMarker = function(){
       map.removeLayer($scope.marker3);
     };
@@ -25,11 +32,10 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
         marker3.openPopup(); //Popup anzeigen
 
         map.removeLayer(marker4);
-        maker4=null;
+        marker4=null;
+        };//end if marker3
 
-
-        };
-      if(maker4==null){
+      if(marker4==null){
         
         marker4 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map); //marker erzeugen und an map hängen
         marker4.bindPopup(z); //popup mit beschreibung anhängen
@@ -38,10 +44,9 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
 
         map.removeLayer(marker3);
         marker3 = null;
-        
-      }
+      } //end if marker4
 
-    } ;
+    } ; //end of locateMap
 
     $scope.oneAtATime = true;
 
@@ -69,7 +74,6 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
           map.panTo(new L.latLng(map.unproject([value.x,value.y*1.03],mapMaxZoom)));
           marker3.openPopup();
           latlngs.push(marker3.getLatLng());
-
         } //end of if
       }) //end of forEach
     } //end of getPosition function
@@ -83,11 +87,80 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
       latlngs.push(marker3.getLatLng());
       var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
 
-  // zoom the map to the polyline
-  map.fitBounds(polyline.getBounds());
-};
+        // zoom the map to the polyline
+        map.fitBounds(polyline.getBounds());
+    };
 
+
+CodeCatchApp.directive('showPosFalse', [function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element.on('click', function() {
+                scope.$apply(function() {
+                    scope.showPos = false;
+                });
+             });
+        }
+    }
+}]);
+
+
+  $scope.showAccTrue = function($scope){
+    $scope.$apply(function(){
+      $scope.showAcc = true;
+    })
+  };
+
+  $scope.showPosTrue = function($scope){
+    $scope.$apply(function(){
+      $scope.showPos = true;
+    })
+  };
+
+  $scope.showPoiTrue = function($scope){
+    $scope.$apply(function(){
+      $scope.showPoi = true;
+    })
+  };
+
+  $scope.showAccFalse = function($scope){
+      $scope.$apply(function(){
+        $scope.showAcc = false;
+      });
+    };
+
+  $scope.showPosFalse = function($scope){
+      $scope.$apply(function(){
+        $scope.showPos = false;
+      });
+    };
+   
+    $scope.showPoiFalse = function($scope){
+      $scope.$apply(function(){
+        $scope.showPoi = false;
+      });
+    };
+
+    $scope.showAccChange = function($scope){
+      $scope.$apply(function(){
+        $scope.showAcc = !$scope.showAcc;
+      });
+    };
+
+  $scope.showPosChange = function($scope){
+    console.log("in pos change")
+      $scope.$apply(function(){
+        $scope.showPos = !$scope.showPos;
+      });
+    };
+   
+    $scope.showPoiChange = function($scope){
+      $scope.$apply(function(){
+        $scope.showPoi = !$scope.showPoi;
+      });
+    };
 
   });//end of jsonCtrl
 
-
+  
