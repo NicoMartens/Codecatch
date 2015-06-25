@@ -5,7 +5,7 @@
         "beschreibung": "Hier gibt es Würstchen und Pommes zu kaufen",
         "x": "4000",
         "y": "4000",
-        "iconname": "abc",
+        "logoName": "cube.png",
         "tags": ["Fast Food", "Würstchen"]
     },
     
@@ -14,7 +14,7 @@
         "beschreibung": "Hier gibt es Schnitzel ohne Ende",
         "x": "5000",
         "y": "5000",
-        "iconname": "def",
+        "iconName": "cube_colored.png",
         "tags": ["Würstchen", "Steak"]
     },
     
@@ -23,7 +23,7 @@
         "beschreibung": "Alles von Torte bis Törtchen",
         "x": "6000",
         "y": "6000",
-        "iconname": "ghi",
+        "iconName": "cube_faced.png",
         "tags": ["Fisch", "Kuchen"]
     }
     ],

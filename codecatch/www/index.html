@@ -95,12 +95,22 @@
 
          map.on('click', onMapClick);
 
-         var marker = L.marker([-65.1875, 99.3125]).addTo(map);
-         marker.bindPopup("Hier ist eine Kreuzung");
-         var marker2 = L.marker(map.unproject([5651.5,4298.5],mapMaxZoom)).addTo(map);
-         marker2.bindPopup("Hier ist ein W");
-    
     // until here
+
+
+
+/***  little hack starts here ***/
+L.Map = L.Map.extend({
+    openPopup: function(popup) {
+        //        this.closePopup();  // just comment this
+        this._popup = popup;
+
+        return this.addLayer(popup).fire('popupopen', {
+            popup: this._popup
+        });
+    }
+}); /***  end of hack ***/
+
 
          </script>
        </div>
@@ -156,7 +166,7 @@
 
             <accordion-group class="fx-fade-right fx-speed-300" ng-repeat="x in pois | filter:searchPOI.tags | filter:searchPOI.name" heading="{{x.name}}">
               {{x.beschreibung}}
-            <button ng-click="locateMap(x.x, x.y, x.name)">
+            <button ng-click="locateMap(x.x, x.y, x.name, x.logoName)">
             Locate
             </button>
             <!--
@@ -188,7 +198,7 @@
             <input type="text" class="form-control" placeholder="&quot;1234&quot;" aria-describedby="sizing-addon2" ng-model="PositionCode" maxlength="4">
           </div>
           
-            <button ng-click="delteAllMarkers(); getPosition(PositionCode, 0)">
+            <button ng-click="removeAllMarkers(); getPosition(PositionCode, 0)">
             Zeige Position
             </button>
 
