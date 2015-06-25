@@ -21,3 +21,6 @@ div.panel-heading {
   padding: 0;
 }
 
+.modal-body {
+    max-height: 80vh; //Sets the height to 80/100ths of the viewport.
+}

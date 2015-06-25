@@ -14,7 +14,18 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     $scope.showPos = false;
     $scope.showPoi = false;
     console.log($scope.showAcc);
-    **/
+**/
+/**
+    $scope.$apply(function() {
+      $scope.showPos=false;
+    });
+    $scope.$apply(function() {
+      $scope.showPoi=false;
+    });
+    $scope.$apply(function() {
+      $scope.showAcc=false;
+    });
+**/
 
     $scope.deleteLocateMarker = function(){
       map.removeLayer($scope.marker3);
@@ -92,20 +103,7 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     };
 
 
-CodeCatchApp.directive('showPosFalse', [function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attrs) {
-            element.on('click', function() {
-                scope.$apply(function() {
-                    scope.showPos = false;
-                });
-             });
-        }
-    }
-}]);
-
-
+/**
   $scope.showAccTrue = function($scope){
     $scope.$apply(function(){
       $scope.showAcc = true;
@@ -160,6 +158,7 @@ CodeCatchApp.directive('showPosFalse', [function () {
         $scope.showPoi = !$scope.showPoi;
       });
     };
+    **/
 
   });//end of jsonCtrl
 
