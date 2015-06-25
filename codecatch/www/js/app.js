@@ -148,64 +148,18 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
         map.fitBounds(polyline.getBounds());
     };
 
-
-/**
-  $scope.showAccTrue = function($scope){
-    $scope.$apply(function(){
-      $scope.showAcc = true;
-    })
-  };
-
-  $scope.showPosTrue = function($scope){
-    $scope.$apply(function(){
-      $scope.showPos = true;
-    })
-  };
-
-  $scope.showPoiTrue = function($scope){
-    $scope.$apply(function(){
-      $scope.showPoi = true;
-    })
-  };
-
-  $scope.showAccFalse = function($scope){
-      $scope.$apply(function(){
-        $scope.showAcc = false;
-      });
-    };
-
-  $scope.showPosFalse = function($scope){
-      $scope.$apply(function(){
-        $scope.showPos = false;
-      });
-    };
-   
-    $scope.showPoiFalse = function($scope){
-      $scope.$apply(function(){
-        $scope.showPoi = false;
-      });
-    };
-
-    $scope.showAccChange = function($scope){
-      $scope.$apply(function(){
-        $scope.showAcc = !$scope.showAcc;
-      });
-    };
-
-  $scope.showPosChange = function($scope){
-    console.log("in pos change")
-      $scope.$apply(function(){
-        $scope.showPos = !$scope.showPos;
-      });
-    };
-   
-    $scope.showPoiChange = function($scope){
-      $scope.$apply(function(){
-        $scope.showPoi = !$scope.showPoi;
-      });
-    };
-    **/
-
   });//end of jsonCtrl
+
+/***  little hack starts here ***/
+L.Map = L.Map.extend({
+    openPopup: function(popup) {
+        //        this.closePopup();  // just comment this
+        this._popup = popup;
+
+        return this.addLayer(popup).fire('popupopen', {
+            popup: this._popup
+        });
+    }
+}); /***  end of hack ***/
 
   
