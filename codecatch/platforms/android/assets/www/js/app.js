@@ -1,80 +1,165 @@
-angular.module('Codecatch', ['ui.bootstrap']);
-angular.module('Codecatch').controller('ModalCtrl', function ($scope, $modal, $log) {
 
 
+var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
+//var markerStack = [];
+//JsonDataController
+  CodeCatchApp.controller('jsonCtrl', function ($scope, $http){
 
-  $scope.items = ['Werners Wurstbude', 'Flying Horse', 'Free Willy', 'Rakete', 'Picknickpark', 'Accessoir-Shop'];
-  $scope.codes = ['1234', '4123', '2314'];
+    var latlngs = Array();
+    var temp = Array();
+    var marker3 = null;
+    var marker4 = 1;
+/**
+    $scope.showAcc = false;
+    $scope.showPos = false;
+    $scope.showPoi = false;
+    console.log($scope.showAcc);
+**/
+/**
+    $scope.$apply(function() {
+      $scope.showPos=false;
+    });
+    $scope.$apply(function() {
+      $scope.showPoi=false;
+    });
+    $scope.$apply(function() {
+      $scope.showAcc=false;
+    });
+**/
 
+    $scope.deleteLocateMarker = function(){
+      map.removeLayer($scope.marker3);
+    };
+    //used in Poi
+    //sets Marker to x,y with description z
+    $scope.locateMap = function (x, y, z) {
 
-  $scope.animationsEnabled = true;
+      //var i = markerStack.pop();
+      if(marker3 == null){
+        
+        marker3 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map); //marker erzeugen und an map hängen
+        marker3.bindPopup(z); //popup mit beschreibung anhängen
+        map.panTo(new L.latLng(map.unproject([x,y*1.03],mapMaxZoom))); //map auf point einstellen
+        marker3.openPopup(); //Popup anzeigen
 
-  $scope.open = function (size) {
+        map.removeLayer(marker4);
+        marker4=null;
+        };//end if marker3
 
-    var modalInstance = $modal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'POIContent.html',
-      controller: 'ModalInstanceCtrl',
-      size: size,
-      resolve: {
-        items: function () {
-          return $scope.items;
-        }
-      }
+      if(marker4==null){
+        
+        marker4 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map); //marker erzeugen und an map hängen
+        marker4.bindPopup(z); //popup mit beschreibung anhängen
+        map.panTo(new L.latLng(map.unproject([x,y*1.03],mapMaxZoom))); //map auf point einstellen
+        marker4.openPopup(); //Popup anzeigen
+
+        map.removeLayer(marker3);
+        marker3 = null;
+      } //end if marker4
+
+    } ; //end of locateMap
+
+    $scope.oneAtATime = true;
+
+    $scope.status = {
+      isFirstOpen: true,
+      isFirstDisabled: false
+    };
+
+    $http.get('json/jsonData.json')
+    .success(function (response)
+    {
+      $scope.pois=response.poi;
+      $scope.positions=response.position;
     });
 
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+    //used in Position - input=PositionCode
+    //sets Marker to position of input
+    $scope.getPosition = function(input){
+      console.log(input);
+
+      angular.forEach ($scope.positions, function(value, key){
+        if (value.posCode==input){
+          var marker3 = L.marker(map.unproject([value.x,value.y],mapMaxZoom)).addTo(map);
+          marker3.bindPopup("You Are Here!");
+          map.panTo(new L.latLng(map.unproject([value.x,value.y*1.03],mapMaxZoom)));
+          marker3.openPopup();
+          latlngs.push(marker3.getLatLng());
+        } //end of if
+      }) //end of forEach
+    } //end of getPosition function
+    
+    $scope.drawWay = function(x,y,z){
+
+      var marker3 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map);
+      marker3.bindPopup(z);
+      map.panTo(new L.latLng(map.unproject([x,y*1.06],mapMaxZoom)));
+      marker3.openPopup();
+      latlngs.push(marker3.getLatLng());
+      var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+
+        // zoom the map to the polyline
+        map.fitBounds(polyline.getBounds());
+    };
+
+
+/**
+  $scope.showAccTrue = function($scope){
+    $scope.$apply(function(){
+      $scope.showAcc = true;
+    })
   };
 
-
-   $scope.search = function (size) {
-
-    var modalInstance = $modal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'search.html',
-      controller: 'ModalInstanceCtrl',
-      size: size,
-      resolve: {
-        items: function () {
-          return $scope.codes;
-        }
-      }
-    });
-
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+  $scope.showPosTrue = function($scope){
+    $scope.$apply(function(){
+      $scope.showPos = true;
+    })
   };
 
-
-
-});
-
-// Please note that $modalInstance represents a modal window (instance) dependency.
-// It is not the same as the $modal service used above.
-
-angular.module('Codecatch').controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
-
-  $scope.items = items;
-  $scope.selected = {
-    item: $scope.items[0]
+  $scope.showPoiTrue = function($scope){
+    $scope.$apply(function(){
+      $scope.showPoi = true;
+    })
   };
 
-  $scope.ok = function () {
-    $modalInstance.close($scope.selected.item);
-  };
+  $scope.showAccFalse = function($scope){
+      $scope.$apply(function(){
+        $scope.showAcc = false;
+      });
+    };
 
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
-});
+  $scope.showPosFalse = function($scope){
+      $scope.$apply(function(){
+        $scope.showPos = false;
+      });
+    };
+   
+    $scope.showPoiFalse = function($scope){
+      $scope.$apply(function(){
+        $scope.showPoi = false;
+      });
+    };
 
+    $scope.showAccChange = function($scope){
+      $scope.$apply(function(){
+        $scope.showAcc = !$scope.showAcc;
+      });
+    };
 
+  $scope.showPosChange = function($scope){
+    console.log("in pos change")
+      $scope.$apply(function(){
+        $scope.showPos = !$scope.showPos;
+      });
+    };
+   
+    $scope.showPoiChange = function($scope){
+      $scope.$apply(function(){
+        $scope.showPoi = !$scope.showPoi;
+      });
+    };
+    **/
 
+  });//end of jsonCtrl
 
+  

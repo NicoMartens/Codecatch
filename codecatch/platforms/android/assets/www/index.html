@@ -1,115 +1,233 @@
-<!doctype html>
-<html ng-app="Codecatch">
-  <head>
-	<meta charset="utf-8">
-    <script src="js/jquery.js"></script>
-    <script src="js/angular.js"></script>
-    <script src="js/ui-bootstrap-tpls-0.13.0.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-	  
-	<!-- leaflet imports-->
-	<link rel="stylesheet" href="leaflet.css" />
-    <script type="text/javascript" src="leaflet.js"></script>
-	  
-	<title>Codecatch</title>
+      <!doctype html>
+      <html ng-app="Codecatch">
+      <head>
+      	<meta charset="utf-8">
+        <script src="js/jquery.js"></script>
+        <script src="js/angular.js"></script>
+        <script src="js/ui-bootstrap-tpls-0.13.0.min.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.js"></script>
+        <!-- leaflet imports-->
+        <link rel="stylesheet" href="leaflet.css" />
+        <script type="text/javascript" src="leaflet.js"></script>
 
-  </head>
-  <body>
+        <link rel="stylesheet" href="css/codecatch.css" />
 
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="">[Codecatch]</a>
-            </div>
-
-            <div ng-controller="ModalCtrl">
-                <script type="text/ng-template" id="POIContent.html">
-                    <div class="modal-header">
-                        <h3 class="modal-title">Points of Interest</h3>
-                    </div>
-                    <div class="modal-body">
-                        <ul>
-                            <li ng-repeat="item in items">
-                                <a ng-click="selected.item = item">{{ item }}</a>
-                            </li>
-                        </ul>
-                    POI-Info: <b>{{ selected.item }}</b>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" ng-click="ok()">Navigate</button>
-                        <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
-                    </div>
-                </script>
+        <style>
+        <!-- html, body, #map { width:100%; height:100%; margin:0; padding:0; } -->
+		#map { width:100%; height:100%; margin:0; margin-top: 50px; padding:0; }
+        </style>
 
 
-                <script type="text/ng-template" id="search.html">
-                    <div class="modal-header">
-                        <h3 class="modal-title">Type in code</h3>
-                    </div>
-                    <div class="modal-body">
+ <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css" />
+  <script>
+  $(function() {
+    $( "#dialog" ).dialog();
+  });
+  </script>
 
-                        <input type="text" class="form-control">
 
+        <title>Codecatch</title>
 
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" ng-click="ok()">Locate</button>
-                        <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
-                    </div>
-                </script>
+      </head>
+      <body ng-app="Codecatch">
 
-            <div id="navbar" class="collapse navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li ><a ng-click="search()">Postion</a></li>
-                <li ><a ng-click="open()">POI</a></li>
-                <li ><a href="">Reset</a></li>
-              </ul>
-            </div><!--/.nav-collapse -->
+      </script>
+      <!-- NavBar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="">[Codecatch]</a>
           </div>
+          <!--<div id="App1" class="mainContainer" data-ng-app="jsonDataApp">-->
+
+
+          <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li ><a href="" data-toggle="modal" data-target="#myModal">Postion</a></li>
+              <li ><a href="" ng-click="showPoiChange(); showPosFalse()">POI</a></li>
+              <li ><a href="">Reset</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
         </div>
-    </nav>
-	
-	
-	<!-- 
-	
-	MAP:
-		using tiles (downloaded with TileDownloader, tiles from Mapquest) 
-		and leaflet framework	
-	-->
-	<div id="map">
-		<script type="text/javascript">
-		
-		var map = L.map('map', {
-					center: [50.932316, 6.99],
-					zoom: 16,
-					minZoom: 15,
-					maxZoom: 18
-		});
-		
-		map.setMaxBounds([
-			[50.933316-0.01, 6.988179-0.015],
-			[50.933316+0.01, 6.988179+0.015]
-		]);
-		
-		L.tileLayer('Mapquest/{z}/{x}/{y}.png').addTo(map);
-		
-		</script>
-	</div>
+      </nav>
 
 
-    <!--
-	erster versuch von Timo, svg direkt einbinden...
-	<OBJECT type="image/svg+xml" data="svg/park.svg"></OBJECT>
-	-->
+      	<!-- 
+      	
+      	MAP:
+      		We use map tiles and leaflet-framework. Map tiles are created by maptiler	
+      	-->
+      	<div id="map">
+      		<script type="text/javascript">
+      		
+		  var mapMinZoom = 4;
+          var mapMaxZoom = 6;
 
-    </body>
+          var map = L.map('map', {
+            maxZoom: mapMaxZoom,
+            minZoom: mapMinZoom,
+            crs: L.CRS.Simple
+          });
 
-</html>
+
+			var pointW = new L.point(5651.5,4298.5);			// is an arbitrarily setted point in the map, only for development
+			var pointWInLocalCoords = map.unproject(pointW, mapMaxZoom);				//projects pointW in the local used coordinate system
+      		
+      		map.setView(pointWInLocalCoords, mapMinZoom);			//sets window center and initial zoom level
+
+      		var dif = 1000; 
+            var mapBounds = new L.LatLngBounds(					//have to set by hand, it doesn't set automatically!!!
+            map.unproject([0+dif, 8192-dif], mapMaxZoom),			//south-west corner
+            map.unproject([11264-dif, 0+dif], mapMaxZoom));			//north-east corner
+      		
+      		map.setMaxBounds(mapBounds);			//we have to adjust the min zoom level to this bounds!!!
+
+
+          L.tileLayer('{z}/{x}/{y}.png', {			
+            minZoom: mapMinZoom, maxZoom: mapMaxZoom,
+            bounds: mapBounds,
+            noWrap: true          
+          }).addTo(map);
+
+         
+		 
+		 
+		 //for development only:
+		 
+		 //from here...
+
+		 var popup = L.popup();			
+
+          function onMapClick(e) {
+           popup.setLatLng(e.latlng)
+           .setContent("Koordinaten aus dem Originalbild: " + map.project(e.latlng, mapMaxZoom).toString())
+           .openOn(map);
+         }
+
+         map.on('click', onMapClick);
+
+         var marker = L.marker([-65.1875, 99.3125]).addTo(map);
+         marker.bindPopup("Hier ist eine Kreuzung");
+         var marker2 = L.marker(map.unproject([5651.5,4298.5],mapMaxZoom)).addTo(map);
+         marker2.bindPopup("Hier ist ein W");
+		
+		// until here
+
+         </script>
+       </div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-controller="jsonCtrl">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        
+        <div id="footerPoi" style="height:50%;overflow:auto;">
+        <div id="container">
+
+
+
+          <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon2">Suche nach:</span>
+            <input type="text" class="form-control" placeholder="&quot;Fast Food&quot;, &quot;Pommes&quot;, &quot;Würstchen&quot;" aria-describedby="sizing-addon2" ng-model="searchPOI.tags" ng-model="searchPOI.name">
+          </div>
+          </br>
+
+          <accordion close-others="true">
+
+            <accordion-group class="fx-fade-right fx-speed-300" ng-repeat="x in pois | filter:searchPOI.tags | filter:searchPOI.name" heading="{{x.name}}">
+              {{x.beschreibung}}
+            <A href="javascript:window.print()">Click to Print This Page</A>
+            <button ng-click="locateMap(x.x, x.y, x.name)">
+            Locate
+            </button>
+            <!--
+            <button ng-show="showbutton2" ng-click="deleteLocateMarker(); locateMap(x.x, x.y, x.name); showbutton=!showbutton; showbutton2=!showbutton2">
+            Locate2
+            </button>
+          -->
+            </accordion-group> 
+          </accordion>
+        </div>         
+      </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      <!-- 
+
+      Footer beim Klick auf POI mit Suche und POIs + Infos
+
+      Zum Ausblenden einfach ng-click="show = !show"
+
+    -->
+    <div ng-controller="jsonCtrl">
+      
+
+      <!-- FooterDiv for Position Button -->
+
+      <div id="footerPosition" ng-show="{{showPos}}" style="height:50%;overflow:auto;">
+        <div id="container">
+          <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon2">Positionscode:</span>
+            <input type="text" class="form-control" placeholder="&quot;1234&quot;" aria-describedby="sizing-addon2" ng-model="PositionCode">
+          </div>
+          
+            <button ng-click="getPosition(PositionCode); showAccTrue()">
+            Wo bin ich?
+            </button>
+
+            <!-- Accordion shows when Positionscode true after click on Button -->
+
+          <div ng-show="{{showAcc}}">
+            Navigiere zu:
+            <accordion close-others="true">
+
+            <accordion-group class="fx-fade-right fx-speed-300" ng-repeat="x in pois | filter:searchPOI.tags | filter:searchPOI.name" heading="{{x.name}}">
+              {{x.beschreibung}}
+            <button showPosFalse ng-click="drawWay(x.x, x.y, x.name)">
+            Navigate
+            </button>
+
+            </accordion-group> 
+          </accordion>
+          </div>
+
+        </div>         
+      </div>
+
+
+    </div> <!--./jsonCtrl-->
+
+  </body>
+
+  </html>

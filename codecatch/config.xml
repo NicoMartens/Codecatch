@@ -9,6 +9,9 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
+	
+	<icon src="codecatch.png" />
+
 
     <access origin="*" />
 </widget>
