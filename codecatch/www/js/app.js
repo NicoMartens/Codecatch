@@ -52,7 +52,7 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
         map.removeLayer(polyline);
         polyline=null;
       };
-
+      map.setZoom(0);
     };
 
     $scope.deleteLocateMarker = function(){
