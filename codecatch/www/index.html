@@ -54,13 +54,12 @@
       	<!-- 
       	
       	MAP:
-      		using tiles (downloaded with TileDownloader, tiles from Mapquest) 
-      		and leaflet framework	
+      		We use map tiles, created with maptiler and leaflet-framework.	
       	-->
       	<div id="map">
       		<script type="text/javascript">
       		
-      		var mapMinZoom = 3;
+		  var mapMinZoom = 4;
           var mapMaxZoom = 6;
 
           var map = L.map('map', {
@@ -70,29 +69,30 @@
           });
 
 
-          var pointW = new L.point(5651.5,4298.5);
+			var pointW = new L.point(5651.5,4298.5);
       		//console.log(pointW.toString());
-      		var latlng = map.unproject(pointW, mapMaxZoom);
-      		//console.log(latlng.toString());
+			var latlng = map.unproject(pointW, mapMaxZoom);
+      		//console.log(latlng.toString()); 
 
       		
       		//sets window center and initial zoom level
       		map.setView(latlng, mapMinZoom);
+			//console.log(map.project(mapCenter));
 
       		var dif = 1000; 
-          var mapBounds = new L.LatLngBounds(
-            map.unproject([0+dif, 8192-dif], mapMaxZoom),
-            map.unproject([11264-dif, 0+dif], mapMaxZoom));
+            var mapBounds = new L.LatLngBounds(					//have to set by hand, it doesn't set automatically!!!
+            map.unproject([0+dif, 8192-dif], mapMaxZoom),			//south-west corner
+            map.unproject([11264-dif, 0+dif], mapMaxZoom));			//north-east corner
 
       		//console.log(map.unproject([11264, 0], mapMaxZoom).toString());
       		
-      		map.setMaxBounds(mapBounds);
+      		map.setMaxBounds(mapBounds);			//we have to adjust the min zoom level to this bounds!!!
 
 
           L.tileLayer('{z}/{x}/{y}.png', {
             minZoom: mapMinZoom, maxZoom: mapMaxZoom,
             bounds: mapBounds,
-            attribution: 'Rendered with <a href="http://www.maptiler.com/">MapTiler</a>',
+            //attribution: 'Rendered with <a href="http://www.maptiler.com/">MapTiler</a>',
             noWrap: true          
           }).addTo(map);
 
