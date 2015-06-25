@@ -9,12 +9,16 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     var temp = Array();
     var marker3 = null;
     var marker4 = 1;
-/**
+    var marker1;
+    var marker2;
+    var polyline;
+
     $scope.showAcc = false;
     $scope.showPos = false;
     $scope.showPoi = false;
+    $scope.showFalseInput=false;
     console.log($scope.showAcc);
-**/
+
 /**
     $scope.$apply(function() {
       $scope.showPos=false;
@@ -26,6 +30,30 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
       $scope.showAcc=false;
     });
 **/
+    
+    $scope.removeAllMarkers = function(){
+      if(marker3!=null){
+        map.removeLayer(marker3);
+        marker3=null;
+      };
+      if(marker4!=null){
+        map.removeLayer(marker4);
+        marker4=null;
+      };
+      if(marker1!=null){
+        map.removeLayer(marker1);
+        marker1=null;
+      };
+      if(marker2!=null){
+        map.removeLayer(marker2);
+        marker2=null;
+      };
+      if(polyline!=null){
+        map.removeLayer(polyline);
+        polyline=null;
+      };
+
+    };
 
     $scope.deleteLocateMarker = function(){
       map.removeLayer($scope.marker3);
@@ -33,8 +61,8 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     //used in Poi
     //sets Marker to x,y with description z
     $scope.locateMap = function (x, y, z) {
-
-      //var i = markerStack.pop();
+      $scope.showPoi=false;
+      $scope.$apply;
       if(marker3 == null){
         
         marker3 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map); //marker erzeugen und an map hängen
@@ -75,29 +103,47 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
 
     //used in Position - input=PositionCode
     //sets Marker to position of input
-    $scope.getPosition = function(input){
+    //if i=0 Nur Position zeigen ohne Poi auswahl und div schließen
+    //if i=1 Position zeigen und Poi auswahl für navigation öffnen
+    $scope.getPosition = function(input, asdf){
       console.log(input);
-
+      var temp = 0;
+      
       angular.forEach ($scope.positions, function(value, key){
         if (value.posCode==input){
-          var marker3 = L.marker(map.unproject([value.x,value.y],mapMaxZoom)).addTo(map);
-          marker3.bindPopup("You Are Here!");
-          map.panTo(new L.latLng(map.unproject([value.x,value.y*1.03],mapMaxZoom)));
-          marker3.openPopup();
-          latlngs.push(marker3.getLatLng());
+          marker1 = L.marker(map.unproject([value.x,value.y],mapMaxZoom)).addTo(map);
+          marker1.bindPopup("You Are Here!");
+          map.panTo(new L.latLng(map.unproject([value.x,value.y*1.06],mapMaxZoom)));
+          marker1.openPopup();
+          latlngs.push(marker1.getLatLng());
+          if(asdf==1){
+            $scope.showAcc=true;
+          };
+          if(asdf==0){
+          $scope.showPos=false;
+          $scope.$apply;
+          };
+          $scope.showFalseInput=false;
+          $scope.$apply;
+          temp=1; //setze temp auf 1 damit showfalseinput nicht angezeigt wird
         } //end of if
-      }) //end of forEach
+      }); //end of forEach
+      if (temp==0){
+        $scope.showFalseInput=true;
+        $scope.showAcc=false;
+      }
     } //end of getPosition function
     
     $scope.drawWay = function(x,y,z){
-
-      var marker3 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map);
-      marker3.bindPopup(z);
-      map.panTo(new L.latLng(map.unproject([x,y*1.06],mapMaxZoom)));
-      marker3.openPopup();
-      latlngs.push(marker3.getLatLng());
-      var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
-
+      $scope.showAcc=false;
+      $scope.showPos=false;
+      $scope.$apply;
+      marker2 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map);
+      marker2.bindPopup(z);
+      map.panTo(new L.latLng(map.unproject([x,y],mapMaxZoom)));
+      marker2.openPopup();
+      latlngs.push(marker2.getLatLng());
+      polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
         // zoom the map to the polyline
         map.fitBounds(polyline.getBounds());
     };
