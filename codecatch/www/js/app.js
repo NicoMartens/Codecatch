@@ -60,13 +60,16 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     };
     //used in Poi
     //sets Marker to x,y with description z
-    $scope.locateMap = function (x, y, z) {
+    $scope.locateMap = function (x, y, z, name) {
       $scope.showPoi=false;
       $scope.$apply;
       if(marker3 == null){
         
         marker3 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map); //marker erzeugen und an map hängen
-        marker3.bindPopup(z); //popup mit beschreibung anhängen
+        
+        marker3.bindPopup(
+        "<img src=logo/" + name + " height=20 width=20 /> " + z
+        ); //popup mit beschreibung anhängen
         map.panTo(new L.latLng(map.unproject([x,y*1.03],mapMaxZoom))); //map auf point einstellen
         marker3.openPopup(); //Popup anzeigen
 
@@ -108,10 +111,21 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     $scope.getPosition = function(input, asdf){
       console.log(input);
       var temp = 0;
+
+      var redMarkerIcon = new L.icon({
+        iconUrl: 'marker_red.png',
+
+        iconSize:     [65, 65], // size of the icon
+        shadowSize:   [50, 64], // size of the shadow
+        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor:  [10, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
       
       angular.forEach ($scope.positions, function(value, key){
         if (value.posCode==input){
-          marker1 = L.marker(map.unproject([value.x,value.y],mapMaxZoom)).addTo(map);
+          marker1 = L.marker(map.unproject([value.x,value.y],mapMaxZoom, {icon: redMarkerIcon})).addTo(map);
           marker1.bindPopup("You Are Here!");
           map.panTo(new L.latLng(map.unproject([value.x,value.y*1.06],mapMaxZoom)));
           marker1.openPopup();
@@ -134,7 +148,13 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
       }
     } //end of getPosition function
     
+
+
+
+
+
     $scope.drawWay = function(x,y,z){
+
       $scope.showAcc=false;
       $scope.showPos=false;
       $scope.$apply;
@@ -150,16 +170,5 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
 
   });//end of jsonCtrl
 
-/***  little hack starts here ***/
-L.Map = L.Map.extend({
-    openPopup: function(popup) {
-        //        this.closePopup();  // just comment this
-        this._popup = popup;
-
-        return this.addLayer(popup).fire('popupopen', {
-            popup: this._popup
-        });
-    }
-}); /***  end of hack ***/
 
   
