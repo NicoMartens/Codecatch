@@ -30,10 +30,6 @@
 		
 		<!-- cordova imports-->
 		<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-		
-		<!-- leaflet-compass imports-->
-		<script src="../compass/src/leaflet-compass.js"></script>
-		<link rel="stylesheet" href="../compass/src/leaflet-compass.css" />
 	
 
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
@@ -54,16 +50,18 @@
     <body ng-app="Codecatch">
 		
 	
-	<!-- compass needle -->
-	<div style="margin-top:50px">
-		<script type="text/javascript" charset="utf-8">compassInit();</script>
-		<img id="compass" src="pfeil.png" ></img>
-	</div>
+	
 	
 	
 	<!-- map -->
     <div id="map">
-        <script type="text/javascript" charset="utf-8">mapInit();</script>
+		<script type="text/javascript" charset="utf-8">mapInit();</script>
+		<!-- compass needle -->
+		<div id="compass">
+ 			<script type="text/javascript" charset="utf-8">compassInit();</script>
+			<img src="pfeil.png" ></img>
+		</div>
+        
 	</div>
 	
 
