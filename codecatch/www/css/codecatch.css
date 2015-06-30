@@ -25,7 +25,10 @@ div.panel-heading {
     max-height: 80vh; //Sets the height to 80/100ths of the viewport.
 }
 
-html, body, #map { width:100%; height:100%;} 
+html, body, #map { 
+	width:100%; 
+	height:100%;
+} 
  
 
 #compass { 
