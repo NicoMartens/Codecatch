@@ -44,6 +44,16 @@
 
 	</head>
     <body ng-app="Codecatch">
+	
+	<!-- map -->
+		<div id="map">
+			<script type="text/javascript" charset="utf-8">mapInit()</script>
+			<!-- compass needle -->
+			<div id="compass">
+				<script type="text/javascript" charset="utf-8">compassInit();</script>
+				<img src="compass.png" ></img> 	<!-- compass.png ist aus dem Internet geklaut, es sind keine Rechte an diesem Bild vorhanden -->
+			</div>
+		</div>
 		<div ng-controller="jsonCtrl" id="navbar">
 			<!-- NavBar -->
 			<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -140,15 +150,7 @@
 		</div> <!--./jsonCtrl-->
 
 		
-		<!-- map -->
-		<div id="map">
-			<script type="text/javascript" charset="utf-8">mapInit();</script>
-			<!-- compass needle -->
-			<div id="compass">
-				<script type="text/javascript" charset="utf-8">compassInit();</script>
-				<img src="compass.png" ></img> 	<!-- compass.png ist aus dem Internet geklaut, es sind keine Rechte an diesem Bild vorhanden -->
-			</div>
-		</div>
+		
 	</body>
 
  </html>

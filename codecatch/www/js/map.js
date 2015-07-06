@@ -1,14 +1,19 @@
 
 
-function mapInit(){
 	var mapMinZoom = 4;
 	var mapMaxZoom = 6;
+	
+	var map;
 
-	var map = L.map('map', {
+function mapInit(){
+	
+	map = L.map('map', {
 		maxZoom: mapMaxZoom,
 		minZoom: mapMinZoom,
 		crs: L.CRS.Simple
 	});
+	
+
 
 	var pointW = new L.point(5651.5,4298.5);      // is an arbitrarily setted point in the map, only for development
 	var pointWInLocalCoords = map.unproject(pointW, mapMaxZoom);        //projects pointW in the local used coordinate system
