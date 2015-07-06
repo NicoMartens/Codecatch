@@ -1,0 +1,273 @@
+﻿<!doctype html>
+<html ng-app="Codecatch">
+	<head>
+		<meta charset="utf-8">
+		<script src="js/jquery.js"></script>
+		<script src="js/angular.js"></script>
+		<script src="js/ui-bootstrap-tpls-0.13.0.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.js"></script>
+		<!-- leaflet imports-->
+		<link rel="stylesheet" href="leaflet.css" />
+		<script type="text/javascript" src="leaflet.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+	
+
+		<link rel="stylesheet" href="css/codecatch.css" />
+
+		<style>
+			<!-- html, body, #map { width:100%; height:100%; margin:0; padding:0; } -->
+			#map { 
+				width:200%; 
+				height:200%; 
+				margin:0; 
+				margin-top: 
+				50px; padding:0; 
+				transform-origin: 50% 50%;
+				transform: rotate(30deg);
+				}
+		</style>
+	
+	
+		<!-- cordova imports-->
+		<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			// Wait for device API libraries to load
+			//
+			document.addEventListener("deviceready", onDeviceReady, false);
+
+			// device APIs are available
+			//
+			function onDeviceReady() {
+				navigator.compass.getCurrentHeading(onSuccess, onError);
+			}
+
+			// onSuccess: Get the current heading
+			//
+			function onSuccess(heading) {
+				alert('Heading: ' + heading.magneticHeading);
+			}
+
+			// onError: Failed to get the heading
+			//
+			function onError(compassError) {
+				alert('Compass Error: ' + compassError.code);
+			}
+			
+		</script>
+
+
+
+
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/resources/demos/style.css" />
+		
+		<script>
+			$(function() {
+			$( "#dialog" ).dialog();
+			});
+		</script>
+
+
+		<title>Codecatch</title>
+
+	</head>
+    <body ng-app="Codecatch">
+
+	<!-- MAP: We use map tiles and leaflet-framework. Map tiles are created by maptiler -->
+	
+    <div id="map">
+        <script type="text/javascript" charset="utf-8">
+          
+			var mapMinZoom = 4;
+			var mapMaxZoom = 6;
+
+			var map = L.map('map', {
+				maxZoom: mapMaxZoom,
+				minZoom: mapMinZoom,
+				crs: L.CRS.Simple
+			});
+
+			var pointW = new L.point(5651.5,4298.5);      // is an arbitrarily setted point in the map, only for development
+			var pointWInLocalCoords = map.unproject(pointW, mapMaxZoom);        //projects pointW in the local used coordinate system
+          
+			map.setView(pointWInLocalCoords, mapMinZoom);     //sets window center and initial zoom level
+
+			var dif = 1000; 
+            var mapBounds = new L.LatLngBounds(         //have to set by hand, it doesn't set automatically!!!
+            map.unproject([0+dif, 8192-dif], mapMaxZoom),     //south-west corner
+            map.unproject([11264-dif, 0+dif], mapMaxZoom));     //north-east corner
+          
+			map.setMaxBounds(mapBounds);      //we have to adjust the min zoom level to this bounds!!!
+
+
+			L.tileLayer('{z}/{x}/{y}.png', {			
+				minZoom: mapMinZoom, maxZoom: mapMaxZoom,
+				bounds: mapBounds,
+				noWrap: true          
+			}).addTo(map);
+
+         
+     
+     
+			//for development only:
+     
+			//from here...
+
+			var popup = L.popup();     
+
+			function onMapClick(e) {
+				popup.setLatLng(e.latlng)
+				.setContent("Koordinaten aus dem Originalbild: " + map.project(e.latlng, mapMaxZoom).toString())
+				.openOn(map);
+			}
+
+			map.on('click', onMapClick);
+
+			// until here
+
+
+
+			/***  little hack starts here ***/
+			L.Map = L.Map.extend({
+				openPopup: function(popup) {
+					//        this.closePopup();  // just comment this
+					this._popup = popup;
+					return this.addLayer(popup).fire('popupopen', {
+						popup: this._popup
+					});
+				}
+			}); /***  end of hack ***/
+
+
+        </script>
+	</div>
+
+
+
+	<div ng-controller="jsonCtrl">
+	<!-- NavBar -->
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="">[Codecatch]</a>
+			</div>
+			<!--<div id="App1" class="mainContainer" data-ng-app="jsonDataApp">-->
+
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li ><a href="" ng-click="showPos = !showPos; showPoi = false; removeAllMarkers()">Position</a></li>
+					<li ><a href="" ng-click="showPoi = !showPoi; showPos = false; removeAllMarkers()">POI</a></li>
+					<li ><a href="" ng-click="removeAllMarkers(); showPoi=false; showPos=false; showAcc=false; showFalseInput=false">Reset</a></li>
+				</ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+      <!-- 
+
+      Footer beim Klick auf POI mit Suche und POIs + Infos
+
+      Zum Ausblenden einfach ng-click="show = !show"
+
+    -->
+    
+      <div id="footerPoi" ng-show="showPoi" style="height:50%;overflow:auto;">
+
+        <div id="container">
+
+
+
+          <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon2">Suche nach:</span>
+            <input type="text" class="form-control" placeholder="&quot;Fast Food&quot;, &quot;Pommes&quot;, &quot;Würstchen&quot;" aria-describedby="sizing-addon2" ng-model="searchPOI.tags" ng-model="searchPOI.name">
+          </div>
+          </br>
+
+          <accordion close-others="true">
+
+            <accordion-group class="fx-fade-right fx-speed-300" ng-repeat="x in pois | filter:searchPOI.tags | filter:searchPOI.name" heading="{{x.name}}">
+              {{x.beschreibung}}
+            <button ng-click="locateMap(x.x, x.y, x.name, x.logoName)">
+            Locate
+            </button>
+            <!--
+            <button ng-show="showbutton2" ng-click="deleteLocateMarker(); locateMap(x.x, x.y, x.name); showbutton=!showbutton; showbutton2=!showbutton2">
+            Locate2
+            </button>
+          -->
+            </accordion-group> 
+          </accordion>
+        </div>         
+      </div>
+
+
+      <!-- 
+
+      Footer beim Klick auf POI mit Suche und POIs + Infos
+
+      Zum Ausblenden einfach ng-click="show = !show"
+
+    -->
+      
+
+      <!-- FooterDiv for Position Button -->
+
+      <div id="footerPosition" ng-show="showPos" style="height:50%;overflow:auto;">
+        <div id="container">
+          <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon2">Positionscode (4-stellig):</span>
+            <input type="text" class="form-control" placeholder="&quot;1234&quot;" aria-describedby="sizing-addon2" ng-model="PositionCode" maxlength="4">
+          </div>
+          
+            <button ng-click="removeAllMarkers(); getPosition(PositionCode, 0)">
+            Zeige Position
+            </button>
+
+            <button ng-click="getPosition(PositionCode, 1)">
+            Zeige Position und öffne POI-Liste
+            </button>
+
+            <div ng-show="showFalseInput">
+              Der Positionscode wurde falsch eingegeben! Bitte erneut eingeben!
+            </div>
+
+            <!-- Accordion shows when Positioncode true after click on Button -->
+
+          <div ng-show="showAcc">
+            Navigiere zu:
+            <accordion close-others="true">
+
+            <accordion-group class="fx-fade-right fx-speed-300" ng-repeat="x in pois | filter:searchPOI.tags | filter:searchPOI.name" heading="{{x.name}}">
+              {{x.beschreibung}}
+
+            <button ng-click="drawWay(x.x, x.y, x.name)">
+            
+            Navigate
+            </button>
+
+            </accordion-group> 
+          </accordion>
+          </div>
+
+        </div>         
+      </div>
+
+
+    </div> <!--./jsonCtrl-->
+
+
+
+
+  </body>
+
+  </html>

@@ -1,0 +1,46 @@
+{"poi":
+    [
+    {
+        "name": "Werner's Wurstbude",
+        "beschreibung": "Hier gibt es Würstchen und Pommes zu kaufen",
+        "x": "4000",
+        "y": "4000",
+        "logoName": "cube.png",
+        "tags": ["Fast Food", "Würstchen"]
+    },
+    
+    {
+        "name": "Hani's Schnitzelparadies",
+        "beschreibung": "Hier gibt es Schnitzel ohne Ende",
+        "x": "5000",
+        "y": "5000",
+        "iconName": "cube_colored.png",
+        "tags": ["Würstchen", "Steak"]
+    },
+    
+    {
+        "name": "Susi's Sahne Salon",
+        "beschreibung": "Alles von Torte bis Törtchen",
+        "x": "6000",
+        "y": "6000",
+        "iconName": "cube_faced.png",
+        "tags": ["Fisch", "Kuchen"]
+    }
+    ],
+
+"position":
+    [
+    {
+        "posCode": "1234",
+        "x": "3500",
+        "y": "4100",
+        "text": "You Are Here!!!"
+    },
+    {
+        "posCode": "5678",
+        "x": "3600",
+        "y": "4200",
+        "text": "You Are Here!!!"
+    }
+    ]
+}
