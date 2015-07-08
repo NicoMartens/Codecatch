@@ -1,7 +1,7 @@
 
 
 var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
-//var markerStack = [];
+
 //JsonDataController
   CodeCatchApp.controller('jsonCtrl', function ($scope, $http){
 
@@ -18,17 +18,6 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     $scope.showPoi = false;
     $scope.showFalseInput=false;
 
-/**
-    $scope.$apply(function() {
-      $scope.showPos=false;
-    });
-    $scope.$apply(function() {
-      $scope.showPoi=false;
-    });
-    $scope.$apply(function() {
-      $scope.showAcc=false;
-    });
-**/
     
     $scope.removeAllMarkers = function(){
       if(marker3!=null){
