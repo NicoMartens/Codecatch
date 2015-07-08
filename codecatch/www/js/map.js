@@ -1,6 +1,8 @@
+	//is needed to set manually for zoom and border functionality
+	var mapWidth = 13000;
+	var mapHeight = 7583;
 
-
-	var mapMinZoom = 4;
+	var mapMinZoom = 2;
 	var mapMaxZoom = 6;
 	
 	var map;
@@ -15,20 +17,18 @@ function mapInit(){
 	
 
 
-	var pointW = new L.point(5651.5,4298.5);      // is an arbitrarily setted point in the map, only for development
-	var pointWInLocalCoords = map.unproject(pointW, mapMaxZoom);        //projects pointW in the local used coordinate system
+	var pointM = new L.point(mapWidth/2,mapHeight/2);      // point in the middle of the map
+	var pointMInLocalCoords = map.unproject(pointM, mapMaxZoom);        //projects pointW in the local used coordinate system
   
-	map.setView(pointWInLocalCoords, mapMinZoom);     //sets window center and initial zoom level
+	map.setView(pointMInLocalCoords, mapMinZoom);     //sets window center and initial zoom level
 
-	var dif = 1000; 
-	var mapBounds = new L.LatLngBounds(         //have to set by hand, it doesn't set automatically!!!
-	map.unproject([0+dif, 8192-dif], mapMaxZoom),     //south-west corner
-	map.unproject([11264-dif, 0+dif], mapMaxZoom));     //north-east corner
+	var mapBounds = new L.LatLngBounds(         
+	map.unproject([0, mapHeight], mapMaxZoom),     //south-west corner
+	map.unproject([mapWidth, 0], mapMaxZoom));     //north-east corner
   
 	map.setMaxBounds(mapBounds);      //we have to adjust the min zoom level to this bounds!!!
 
-
-	L.tileLayer('{z}/{x}/{y}.png', {			
+	L.tileLayer('mapTiles/{z}/{x}/{y}.png', {			
 		minZoom: mapMinZoom, maxZoom: mapMaxZoom,
 		bounds: mapBounds,
 		noWrap: true          
