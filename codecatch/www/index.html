@@ -37,8 +37,9 @@
 
 	</head>
     <body ng-app="Codecatch">
-	
-	<!-- map -->
+		
+
+		<!-- map -->
 		<div id="map">
 			<script type="text/javascript" charset="utf-8">mapInit()</script>
 			<!-- compass needle -->
@@ -47,35 +48,19 @@
 				<img src="compass.png" ></img> 	<!-- compass.png ist aus dem Internet geklaut, es sind keine Rechte an diesem Bild vorhanden -->
 			</div>
 		</div>
+
+	
+		<div ng-controller="jsonCtrl">
+
+
 		
-		<div ng-controller="jsonCtrl" id="navbar">
 
 
+						<a href="" ng-click="showPos = !showPos; showPoi = false; removeAllMarkers()" data-toggle="modal" data-target="#myModal" class="btn btn-circlePos btn-success"><font color="#000000">Pos</font></span></a>
+        		<a href="" ng-click="showPoi = !showPoi; showPos = false; removeAllMarkers()" data-toggle="modal" data-target="#myModal" class="btn btn-circlePoi btn-warning"><font color="#000000">Poi</font></span></a>
+        		<a ref="" ng-click="removeAllMarkers(); showPoi=false; showPos=false; showAcc=false; showFalseInput=false" data-toggle="modal" data-target="#myModal" class="btn btn-circleRes btn-danger"><font color="#000000">Reset</font></span></a>
 
-			<!-- NavBar -->
-			<nav class="navbar navbar-inverse navbar-fixed-top">
-				<div class="container">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="">[Codecatch]</a>
-					</div>
-					<!--<div id="App1" class="mainContainer" data-ng-app="jsonDataApp">-->
-
-					<div id="navbar" class="collapse navbar-collapse">
-						<ul class="nav navbar-nav">
-							<li ><a href="" ng-click="showPos = !showPos; showPoi = false; removeAllMarkers()">Position</a></li>
-							<li ><a href="" ng-click="showPoi = !showPoi; showPos = false; removeAllMarkers()">POI</a></li>
-							<li ><a href="" ng-click="removeAllMarkers(); showPoi=false; showPos=false; showAcc=false; showFalseInput=false">Reset</a></li>
-						</ul>
-					</div><!--/.nav-collapse -->
-				</div>
-			</nav>
-      <!-- 
+   <!-- 
 
       Footer beim Klick auf POI mit Suche und POIs + Infos
 
@@ -120,9 +105,9 @@
 
 			<div id="footerPosition" ng-show="showPos" style="height:50%;overflow:auto;">
 				<div id="container">
-					<div class="input-group">
+					<div class="input-group" id="staticParent">
 						<span class="input-group-addon" id="sizing-addon2">Positionscode (4-stellig):</span>
-						<input type="text" class="form-control" placeholder="&quot;1234&quot;" aria-describedby="sizing-addon2" ng-model="PositionCode" maxlength="4">
+						<input id="child" type="textarea" class="form-control" placeholder="&quot;1234&quot;" aria-describedby="sizing-addon2" ng-model="PositionCode" maxlength="4">
 					</div>
 					<button ng-click="removeAllMarkers(); getPosition(PositionCode, 0)">Zeige Position</button>
 					<button ng-click="getPosition(PositionCode, 1)">Zeige Position und öffne POI-Liste</button>
@@ -135,7 +120,7 @@
 					<div ng-show="showAcc">
 						Navigiere zu:
 						<accordion close-others="true">
-							<accordion-group class="fx-fade-right fx-speed-300" ng-repeat="x in pois | filter:searchPOI.tags | filter:searchPOI.name" heading="{{x.name}}">
+							<accordion-group class="fx-fade-right fx-speed-300" ng-repeat="x in pois2 | filter:searchPOI.tags | filter:searchPOI.name" heading="{{x.name}}">
 								{{x.beschreibung}}
 								<button ng-click="drawWay(x.x, x.y, x.name)">Navigate</button>
 							</accordion-group> 
@@ -146,7 +131,6 @@
 			</div>
 		</div> <!--./jsonCtrl-->
 
-		
 		
 	</body>
 

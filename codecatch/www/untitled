@@ -1,0 +1,11 @@
+<div class="container">
+				<div class="row">
+					<center>
+						<a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-success">Pos</span></a>
+        		<a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-warning">Poi</span></a>
+        		<a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-circle btn-danger">Reset</span></a>
+        	</center>
+        </div>
+      </div>
+
+      
