@@ -1,0 +1,23 @@
+<!-- NavBar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="">[Codecatch]</a>
+          </div>
+          <!--<div id="App1" class="mainContainer" data-ng-app="jsonDataApp">-->
+
+          <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li ><a href="" ng-click="showPos = !showPos; showPoi = false; removeAllMarkers()">Position</a></li>
+              <li ><a href="" ng-click="showPoi = !showPoi; showPos = false; removeAllMarkers()">POI</a></li>
+              <li ><a href="" ng-click="removeAllMarkers(); showPoi=false; showPos=false; showAcc=false; showFalseInput=false">Reset</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>

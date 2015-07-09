@@ -1,7 +1,7 @@
 
 
 var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
-//var markerStack = [];
+
 //JsonDataController
   CodeCatchApp.controller('jsonCtrl', function ($scope, $http){
 
@@ -17,19 +17,7 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     $scope.showPos = false;
     $scope.showPoi = false;
     $scope.showFalseInput=false;
-    console.log($scope.showAcc);
 
-/**
-    $scope.$apply(function() {
-      $scope.showPos=false;
-    });
-    $scope.$apply(function() {
-      $scope.showPoi=false;
-    });
-    $scope.$apply(function() {
-      $scope.showAcc=false;
-    });
-**/
     
     $scope.removeAllMarkers = function(){
       if(marker3!=null){
@@ -55,9 +43,7 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
       map.setZoom(0);
     };
 
-    $scope.deleteLocateMarker = function(){
-      map.removeLayer($scope.marker3);
-    };
+
     //used in Poi
     //sets Marker to x,y with description z
     $scope.locateMap = function (x, y, z, name) {
@@ -101,6 +87,7 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     .success(function (response)
     {
       $scope.pois=response.poi;
+      $scope.pois2=response.poi;
       $scope.positions=response.position;
     });
 
@@ -149,10 +136,6 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     } //end of getPosition function
     
 
-
-
-
-
     $scope.drawWay = function(x,y,z){
 
       $scope.showAcc=false;
@@ -170,5 +153,17 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
 
   });//end of jsonCtrl
 
+// Function just allows numeric values as input
+$(function() {
+  $('#staticParent').on('keydown', '#child', function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
+});
 
+//Close navbar onclick
+$(function() {
+    $('.nav a').on('click', function(){ 
+        if($('.navbar-toggle').css('display') !='none'){
+            $(".navbar-toggle").trigger( "click" );
+        }
+    });
+});
   
