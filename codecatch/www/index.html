@@ -63,7 +63,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="">[Codecatch]</a>
+            <a class="navbar-brand" href="" ng-click="removeAllMarkers(); showPoi=false; showPos=false; showAcc=false; showFalseInput=false">[Codecatch]</a>
           </div>
           <!--<div id="App1" class="mainContainer" data-ng-app="jsonDataApp">-->
 
@@ -79,6 +79,8 @@
 		
 				<!--
 						Buttons
+					-->
+					<!--
 
 						<a href="" ng-click="showPos = !showPos; showPoi = false; removeAllMarkers()" data-toggle="modal" data-target="#myModal" class="btn btn-circlePos btn-success"><font color="#000000">Pos</font></span></a>
         		<a href="" ng-click="showPoi = !showPoi; showPos = false; removeAllMarkers()" data-toggle="modal" data-target="#myModal" class="btn btn-circlePoi btn-warning"><font color="#000000">Poi</font></span></a>
@@ -105,12 +107,8 @@
 					<accordion close-others="true">
 						<accordion-group class="fx-fade-right fx-speed-300" ng-repeat="x in pois | filter:searchPOI.tags | filter:searchPOI.name" heading="{{x.name}}">
 							{{x.beschreibung}}
-						<button ng-click="locateMap(x.x, x.y, x.name, x.logoName)">Locate</button>
-						<!--
-						<button ng-show="showbutton2" ng-click="deleteLocateMarker(); locateMap(x.x, x.y, x.name); showbutton=!showbutton; showbutton2=!showbutton2">
-						Locate2
-						</button>
-						-->
+							<button class="btn btn-primary btn-sm" ng-click="locateMap(x.x, x.y, x.name, x.logoName)">Locate</button>
+					
 						</accordion-group> 
 					</accordion>
 				</div>         
@@ -132,26 +130,25 @@
 				<div id="container">
 					<div class="input-group" id="staticParent">
 						<span class="input-group-addon" id="sizing-addon2">Positionscode (4-stellig):</span>
-
-
 						<input id="child" type="textarea" class="form-control" placeholder="&quot;1234&quot;" aria-describedby="sizing-addon2" ng-model="PositionCode" maxlength="4" onkeydown="if (event.keyCode == 13) document.getElementById('poiclick').click()">
+					</div>
 
+					<button class="btn btn-primary btn-sm" id="poiclick" ng-click="removeAllMarkers(); getPosition(PositionCode, 0)">Zeige Position</button>
 
-				</div>
-					<button id="poiclick" ng-click="removeAllMarkers(); getPosition(PositionCode, 0)">Zeige Position</button>
-					<button ng-click="getPosition(PositionCode, 1)">Zeige Position und öffne POI-Liste</button>
+					<button class="btn btn-primary btn-sm" ng-click="getPosition(PositionCode, 1)">Zeige Position und öffne POI-Liste</button>
+
 						<div ng-show="showFalseInput">
 						Der Positionscode wurde falsch eingegeben! Bitte erneut eingeben!
 						</div>
 
 					<!-- Accordion shows when Positioncode true after click on Button -->
 
-					<div ng-show="showAcc">
-						Navigiere zu:
-						<accordion close-others="true">
-							<accordion-group class="fx-fade-right fx-speed-300" ng-repeat="x in pois2 | filter:searchPOI.tags | filter:searchPOI.name" heading="{{x.name}}">
+						<div ng-show="showAcc">
+							Navigiere zu:
+							<accordion close-others="true">
+								<accordion-group class="fx-fade-right fx-speed-300" ng-repeat="x in pois2 | filter:searchPOI.tags | filter:searchPOI.name" heading="{{x.name}}">
 								{{x.beschreibung}}
-								<button ng-click="drawWay(x.x, x.y, x.name)">Navigate</button>
+								<button class="btn btn-primary btn-sm" ng-click="drawWay(x.x, x.y, x.name)">Navigate</button>
 							</accordion-group> 
 						</accordion>
 					</div>

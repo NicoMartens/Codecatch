@@ -42,6 +42,7 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
       };
       map.setZoom(0);
     };
+    //end of removeAllMarkers
 
 
     //used in Poi
@@ -103,16 +104,16 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
         iconUrl: 'marker_red.png',
 
         iconSize:     [65, 65], // size of the icon
-        shadowSize:   [50, 64], // size of the shadow
-        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-        shadowAnchor: [4, 62],  // the same for the shadow
-        popupAnchor:  [10, -76] // point from which the popup should open relative to the iconAnchor
+        //shadowSize:   [50, 64], // size of the shadow
+        iconAnchor:   [32, 55], // point of the icon which will correspond to marker's location
+        //shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor:  [1, -40] // point from which the popup should open relative to the iconAnchor
     });
 
       
       angular.forEach ($scope.positions, function(value, key){
         if (value.posCode==input){
-          marker1 = L.marker(map.unproject([value.x,value.y],mapMaxZoom, {icon: redMarkerIcon})).addTo(map);
+          marker1 = L.marker(map.unproject([value.x,value.y],mapMaxZoom), {icon: redMarkerIcon}).addTo(map);
           marker1.bindPopup("You Are Here!");
           map.panTo(new L.latLng(map.unproject([value.x,value.y*1.06],mapMaxZoom)));
           marker1.openPopup();
@@ -149,6 +150,7 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
       polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
         // zoom the map to the polyline
         map.fitBounds(polyline.getBounds());
+      latlngs=Array();
     };
 
   });//end of jsonCtrl

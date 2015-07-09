@@ -9,6 +9,19 @@
 
 function mapInit(){
 	
+	//Keep Markers open
+	     L.Map = L.Map.extend({
+                openPopup: function(popup) {
+                    //        this.closePopup();  // just comment this
+                    this._popup = popup;
+
+                    return this.addLayer(popup).fire('popupopen', {
+                        popup: this._popup
+                    });
+                }
+            });
+	     //end of Keep Markers open
+
 	map = L.map('map', {
 		maxZoom: mapMaxZoom,
 		minZoom: mapMinZoom,
@@ -42,9 +55,10 @@ function mapInit(){
 	var popup = L.popup();     
 
 	function onMapClick(e) {
-		popup.setLatLng(e.latlng)
-		.setContent("Koordinaten aus dem Originalbild: " + map.project(e.latlng, mapMaxZoom).toString())
-		.openOn(map);
+
+		angular.element(document.getElementById('yourControllerElementID')).scope().showPos=false;
+        angular.element(document.getElementById('yourControllerElementID')).scope().$apply;
+        
 	}
 
 	map.on('click', onMapClick);
