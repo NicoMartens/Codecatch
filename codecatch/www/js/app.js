@@ -95,7 +95,7 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     //sets Marker to position of input
     //if i=0 Nur Position zeigen ohne Poi auswahl und div schließen
     //if i=1 Position zeigen und Poi auswahl für navigation öffnen
-    $scope.getPosition = function(input, asdf){
+    $scope.getPosition = function(input, i){
       console.log(input);
       var temp = 0;
 
@@ -117,10 +117,10 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
           map.panTo(new L.latLng(map.unproject([value.x,value.y*1.06],mapMaxZoom)));
           marker1.openPopup();
           latlngs.push(marker1.getLatLng());
-          if(asdf==1){
+          if(i==1){
             $scope.showAcc=true;
           };
-          if(asdf==0){
+          if(i==0){
           $scope.showPos=false;
           $scope.$apply;
           };
@@ -166,4 +166,6 @@ $(function() {
         }
     });
 });
+
+
   
