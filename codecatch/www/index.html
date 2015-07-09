@@ -124,7 +124,7 @@
 			Zum Ausblenden einfach ng-click="show = !show"
 
 			-->
-      
+
 
 			<!-- FooterDiv for Position Button -->
 
@@ -132,13 +132,17 @@
 				<div id="container">
 					<div class="input-group" id="staticParent">
 						<span class="input-group-addon" id="sizing-addon2">Positionscode (4-stellig):</span>
-						<input id="child" type="textarea" class="form-control" placeholder="&quot;1234&quot;" aria-describedby="sizing-addon2" ng-model="PositionCode" maxlength="4">
-					</div>
-					<button ng-click="removeAllMarkers(); getPosition(PositionCode, 0)">Zeige Position</button>
+
+
+						<input id="child" type="textarea" class="form-control" placeholder="&quot;1234&quot;" aria-describedby="sizing-addon2" ng-model="PositionCode" maxlength="4" onkeydown="if (event.keyCode == 13) document.getElementById('poiclick').click()">
+
+
+				</div>
+					<button id="poiclick" ng-click="removeAllMarkers(); getPosition(PositionCode, 0)">Zeige Position</button>
 					<button ng-click="getPosition(PositionCode, 1)">Zeige Position und öffne POI-Liste</button>
-					<div ng-show="showFalseInput">
+						<div ng-show="showFalseInput">
 						Der Positionscode wurde falsch eingegeben! Bitte erneut eingeben!
-					</div>
+						</div>
 
 					<!-- Accordion shows when Positioncode true after click on Button -->
 
