@@ -2,7 +2,7 @@
 	var mapWidth = 13000;
 	var mapHeight = 7583;
 
-	var mapMinZoom = 2;
+	var mapMinZoom = 3;
 	var mapMaxZoom = 6;
 	
 	var map;
