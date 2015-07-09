@@ -55,10 +55,16 @@ function mapInit(){
 	var popup = L.popup();     
 
 	function onMapClick(e) {
-
-		angular.element(document.getElementById('yourControllerElementID')).scope().showPos=false;
-        angular.element(document.getElementById('yourControllerElementID')).scope().$apply;
-        
+		//close showPos und showPoi bei klick in die map
+		 // get Angular scope from the known DOM element
+    f = document.getElementById('controller');
+    scope = angular.element(f).scope();
+    scope.$apply(function() {
+        scope.showPos=false;
+        scope.showPoi=false;
+    }); 
+	
+		
 	}
 
 	map.on('click', onMapClick);
