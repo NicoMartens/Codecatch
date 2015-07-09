@@ -1,0 +1,27 @@
+{"poi":
+   [
+   {"name": "asdf", 
+   "beschreibung": "asdf", 
+   "tags": ["asdf", "fdsa"], 
+   "x": "6096", "y": "2192", 
+   "logoName": "cube.png"}
+   ],
+"position":
+   [
+   {"posCode": "0001", 
+   "x": "4624", 
+   "y": "3200",
+   "text": "You Are Here!"
+   },
+   {"posCode": "0002", 
+   "x": "6352", 
+   "y": "5552",
+   "text": "You Are Here!"
+   },
+   {"posCode": "0003", 
+   "x": "2800", 
+   "y": "5424",
+   "text": "You Are Here!"
+    }
+   ]
+}
