@@ -43,9 +43,7 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
       map.setZoom(0);
     };
 
-    $scope.deleteLocateMarker = function(){
-      map.removeLayer($scope.marker3);
-    };
+
     //used in Poi
     //sets Marker to x,y with description z
     $scope.locateMap = function (x, y, z, name) {
