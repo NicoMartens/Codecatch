@@ -39,7 +39,7 @@ function stopWatch() {
 //
 function onSuccess(heading) {
 	//var element = document.getElementById('heading');
-	deg = 360 - (screenOrientation + heading.magneticHeading);
+	deg = 360 - (heading.magneticHeading + window.orientation);
 	//element.innerHTML = 'Heading: ' + deg;
 	
 	var compass = document.getElementById('compass');
@@ -54,23 +54,6 @@ function onError(compassError) {
 }
 
 
-//correct angle for screen orientation
-function doOnOrientationChange(){
-    
-	switch(window.orientation){  
-		case -90:
-			screenOrientation = -90;
-			break; 
-		case 90:
-			screenOrientation = 90;
-			break; 
-		default:
-			screenOrientation = 0;
-			break; 
-	}
-}
-  
-window.addEventListener('orientationchange', doOnOrientationChange);
 
 
 
