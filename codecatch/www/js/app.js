@@ -6,7 +6,6 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
   CodeCatchApp.controller('jsonCtrl', function ($scope, $http){
 
     var latlngs = Array();
-    var temp = Array();
     var marker3 = null;
     var marker4 = 1;
     var marker1;
@@ -67,7 +66,7 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
       if(marker4==null){
         
         marker4 = L.marker(map.unproject([x,y],mapMaxZoom)).addTo(map); //marker erzeugen und an map hängen
-        marker4.bindPopup(z); //popup mit beschreibung anhängen
+        marker4.bindPopup("<img src=logo/" + name + " height=20 width=20 /> " + z); //popup mit beschreibung anhängen
         map.panTo(new L.latLng(map.unproject([x,y*1.03],mapMaxZoom))); //map auf point einstellen
         marker4.openPopup(); //Popup anzeigen
 
@@ -88,7 +87,6 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     .success(function (response)
     {
       $scope.pois=response.poi;
-      $scope.pois2=response.poi;
       $scope.positions=response.position;
     });
 
@@ -98,7 +96,7 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
     //if i=1 Position zeigen und Poi auswahl für navigation öffnen
     $scope.getPosition = function(input, i){
       console.log(input);
-      var temp = 0;
+      var falseInputCheck = 0;
 
       var redMarkerIcon = new L.icon({
         iconUrl: 'marker_red.png',
@@ -127,10 +125,10 @@ var CodeCatchApp = angular.module('Codecatch', ['ui.bootstrap']);
           };
           $scope.showFalseInput=false;
           $scope.$apply;
-          temp=1; //setze temp auf 1 damit showfalseinput nicht angezeigt wird
+          falseInputCheck=1; //setze falseInputCheck auf 1 damit showfalseinput nicht angezeigt wird
         } //end of if
       }); //end of forEach
-      if (temp==0){
+      if (falseInputCheck==0){
         $scope.showFalseInput=true;
         $scope.showAcc=false;
       }
